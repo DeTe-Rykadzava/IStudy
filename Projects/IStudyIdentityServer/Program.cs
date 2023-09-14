@@ -1,3 +1,4 @@
+using IStudyIdentityServer.Common;
 using IStudyIdentityServer.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,11 @@ builder.Services.AddDbContext<IStudyContext>
 (opt => opt.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnect"))
 );
+
+var authOptionsConfiguration = builder.Configuration.GetSection("Auth");
+builder.Services.Configure<AuthOptions>(authOptionsConfiguration);
+
+
 
 var app = builder.Build();
 
