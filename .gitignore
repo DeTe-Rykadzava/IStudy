@@ -17,25 +17,27 @@
 mono_crash.*
 
 # Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-x64/
-x86/
-[Ww][Ii][Nn]32/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
-bld/
-[Bb]in/
-[Oo]bj/
-[Ll]og/
-[Ll]ogs/
+/Projects/*/[Dd]ebug/
+/Projects/*/[Dd]ebugPublic/
+/Projects/*/[Rr]elease/
+/Projects/*/[Rr]eleases/
+/Projects/*/x64/
+/Projects/*/x86/
+/Projects/*/[Ww][Ii][Nn]32/
+/Projects/*/[Aa][Rr][Mm]/
+/Projects/*/[Aa][Rr][Mm]64/
+/Projects/*/bld/
+/Projects/*/[Bb]in/
+/Projects/*/[Oo]bj/
+/Projects/*/[Ll]og/
+/Projects/*/[Ll]ogs/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
+# rider
+.idea
 
 # Visual Studio 2017 auto generated files
 Generated\ Files/
