@@ -4,6 +4,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projects", "Projects", "{59
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IStudyIdentityServer", "Projects\IStudyIdentityServer\IStudyIdentityServer.csproj", "{86EADAFE-9A3A-457D-87C5-230E4C13C985}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IStudyIdentityServer.Common", "Projects\IStudyIdentityServer.Common\IStudyIdentityServer.Common.csproj", "{F724BB5E-6FEF-491C-8F1C-40E6C46CFAE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -11,11 +13,16 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{86EADAFE-9A3A-457D-87C5-230E4C13C985} = {59BDB6A4-7DBE-47FC-B20E-5B7E7E99C026}
+		{F724BB5E-6FEF-491C-8F1C-40E6C46CFAE9} = {59BDB6A4-7DBE-47FC-B20E-5B7E7E99C026}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{86EADAFE-9A3A-457D-87C5-230E4C13C985}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{86EADAFE-9A3A-457D-87C5-230E4C13C985}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86EADAFE-9A3A-457D-87C5-230E4C13C985}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86EADAFE-9A3A-457D-87C5-230E4C13C985}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F724BB5E-6FEF-491C-8F1C-40E6C46CFAE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F724BB5E-6FEF-491C-8F1C-40E6C46CFAE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F724BB5E-6FEF-491C-8F1C-40E6C46CFAE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F724BB5E-6FEF-491C-8F1C-40E6C46CFAE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
