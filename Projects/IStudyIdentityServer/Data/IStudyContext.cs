@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace IStudyIndentityServer.Data;
+namespace IStudyIdentityServer.Data;
 
 public partial class IStudyContext : DbContext
 {

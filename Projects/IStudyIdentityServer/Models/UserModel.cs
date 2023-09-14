@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IStudyIndentityServer.Models;
+namespace IStudyIdentityServer.Models;
 
 public class UserLoginModel
 {

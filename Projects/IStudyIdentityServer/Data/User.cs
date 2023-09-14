@@ -1,26 +1,25 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
-namespace IStudyIndentityServer.Models;
+namespace IStudyIdentityServer.Data;
 
-public class UserRegistrationModel
+public partial class User
 {
-    [Required]
+    public int Id { get; set; }
+
     public string Firstname { get; set; } = null!;
-    
-    [Required]
+
     public string Secondname { get; set; } = null!;
 
     public string? Lastname { get; set; }
 
     public int Classid { get; set; }
-    
-    [Required]
+
     public string Login { get; set; } = null!;
 
-    [Required]
     public string Password { get; set; } = null!;
 
-    [Required]
-    [Range(1,2)]
+    public int Verifystage { get; set; }
+
     public int Usertypeid { get; set; }
 }

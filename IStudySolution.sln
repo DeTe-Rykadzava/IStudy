@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projects", "Projects", "{59BDB6A4-7DBE-47FC-B20E-5B7E7E99C026}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IStudyIndentityServer", "Projects\IStudyIndentityServer\IStudyIndentityServer.csproj", "{86EADAFE-9A3A-457D-87C5-230E4C13C985}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IStudyIdentityServer", "Projects\IStudyIdentityServer\IStudyIdentityServer.csproj", "{86EADAFE-9A3A-457D-87C5-230E4C13C985}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

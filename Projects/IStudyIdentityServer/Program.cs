@@ -1,4 +1,4 @@
-using IStudyIndentityServer.Data;
+using IStudyIdentityServer.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
