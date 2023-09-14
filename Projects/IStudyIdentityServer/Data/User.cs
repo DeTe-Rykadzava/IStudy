@@ -5,7 +5,7 @@ namespace IStudyIdentityServer.Data;
 
 public partial class User
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public string Firstname { get; set; } = null!;
 

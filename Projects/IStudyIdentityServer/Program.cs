@@ -18,6 +18,13 @@ builder.Services.AddDbContext<IStudyContext>
 var authOptionsConfiguration = builder.Configuration.GetSection("Auth");
 builder.Services.Configure<AuthOptions>(authOptionsConfiguration);
 
+builder.Services.AddCors(opt => 
+    opt.AddDefaultPolicy(build =>
+    {
+        build.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    }));
 
 
 var app = builder.Build();
@@ -28,13 +35,14 @@ using (var context = scope.ServiceProvider.GetService<IStudyContext>())
     context.Database.EnsureCreated();
 }
 
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 
