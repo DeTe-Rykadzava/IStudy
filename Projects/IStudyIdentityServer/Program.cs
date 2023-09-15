@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<IStudyContext>
+builder.Services.AddDbContext<IStudyDataBaseContext>
 (opt => opt.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnect"))
 );
@@ -30,7 +30,7 @@ builder.Services.AddCors(opt =>
 var app = builder.Build();
 
 using var scope = app.Services.CreateScope();
-using (var context = scope.ServiceProvider.GetService<IStudyContext>())
+using (var context = scope.ServiceProvider.GetService<IStudyDataBaseContext>())
 {
     context.Database.EnsureCreated();
 }

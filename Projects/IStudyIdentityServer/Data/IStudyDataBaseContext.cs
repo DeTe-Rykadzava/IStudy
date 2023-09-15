@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IStudyIdentityServer.Data;
 
-public partial class IStudyContext : DbContext
+public partial class IStudyDataBaseContext : DbContext
 {
-    public IStudyContext()
+    public IStudyDataBaseContext()
     {
     }
 
-    public IStudyContext(DbContextOptions<IStudyContext> options)
+    public IStudyDataBaseContext(DbContextOptions<IStudyDataBaseContext> options)
         : base(options)
     {
     }
@@ -24,18 +24,19 @@ public partial class IStudyContext : DbContext
     {
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("student_pk");
+            entity.HasKey(e => e.Id).HasName("user_pk");
 
             entity.ToTable("user");
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Classid).HasColumnName("classid");
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.ClassId).HasColumnName("class_id");
             entity.Property(e => e.Firstname).HasColumnName("firstname");
             entity.Property(e => e.Lastname).HasColumnName("lastname");
-            entity.Property(e => e.Login).HasColumnName("login");
-            entity.Property(e => e.Password).HasColumnName("password");
             entity.Property(e => e.Secondname).HasColumnName("secondname");
-            entity.Property(e => e.Usertypeid).HasColumnName("usertypeid");
+            entity.Property(e => e.UserPhoto).HasColumnName("user_photo");
+            entity.Property(e => e.UserTypeId).HasColumnName("user_type_id");
             entity.Property(e => e.Verifystage).HasColumnName("verifystage");
         });
 

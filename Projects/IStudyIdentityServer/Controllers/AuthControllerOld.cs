@@ -18,13 +18,13 @@ namespace IStudyIdentityServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthControllerOld : ControllerBase
     {
-        private readonly IStudyContext _context;
+        private readonly IStudyDataBaseContext _context;
         private readonly IOptions<AuthOptions> _authOptions;
-        public AuthController(IStudyContext context, IOptions<AuthOptions> authOptions) => (_context, _authOptions) = (context, authOptions);
+        public AuthControllerOld(IStudyDataBaseContext context, IOptions<AuthOptions> authOptions) => (_context, _authOptions) = (context, authOptions);
 
-        [Route("SignIn")]
+        /*[Route("SignIn")]
         [HttpPost]
         public async Task<IActionResult> SignIn([FromBody] UserLoginModel model)
         {
@@ -35,9 +35,9 @@ namespace IStudyIdentityServer.Controllers
             var token = GenerateJwt(user);
             
             return Ok(new {access_token = token});
-        }
+        }*/
         
-        [Route("SignUp")]
+        /*[Route("SignUp")]
         [HttpPost]
         public async Task<IActionResult> SignUp([FromBody]UserRegistrationModel model)
         {
@@ -45,19 +45,7 @@ namespace IStudyIdentityServer.Controllers
                 return Conflict("User with that login already exist");
             try
             {
-                var newUser = new User()
-                {
-                    Classid = model.Classid,
-                    Firstname = model.Firstname,
-                    Id = Guid.NewGuid(),
-                    Verifystage = 0,
-                    Password = BCrypt.Net.BCrypt.HashPassword(model.Password),
-                    Usertypeid = model.Usertypeid,
-                    Login = model.Login,
-                    Secondname = model.Secondname,
-                    Lastname = model.Lastname
-                };
-
+                
                 _context.Users.Add(newUser);
                 await _context.SaveChangesAsync();
                 
@@ -69,33 +57,33 @@ namespace IStudyIdentityServer.Controllers
             {
                 return Problem(e.Message);
             }
-        }
+        }*/
         
-        [Route("CheckCanLogin")]
+        /*[Route("CheckCanLogin")]
         [HttpPost]
         public async Task<bool> CheckCanLogin([FromBody] string login)
         {
             if (await UserExistByLogin(login))
                 return true;
             return false;
-        }
+        }*/
         
-        private async Task<User?> AuthenticateUser(string login, string password )
+        /*private async Task<User?> AuthenticateUser(string login, string password )
         {
            return (await GetAll()).FirstOrDefault(x => x.Login == login && BCrypt.Net.BCrypt.Verify(password, x.Password));
-        }
+        }*/
 
-        private async Task<List<User>> GetAll()
+        /*private async Task<List<User>> GetAll()
         {
             return await _context.Users.Where(x => x.Verifystage == 1).ToListAsync();
-        }
+        }*/
 
-        private async Task<bool> UserExistByLogin (string login)
+        /*private async Task<bool> UserExistByLogin (string login)
         {
-            return (await GetAll()).FirstOrDefault(x => x.Login == login) != null;
-        }
+           return (await GetAll()).FirstOrDefault(x => x.Login == login) != null;
+        }*/
 
-        private string GenerateJwt(User user)
+        /*private string GenerateJwt(User user)
         {
             var authParams = _authOptions.Value;
             var securityKey = authParams.GetSymmetricSecurityKey();
@@ -124,6 +112,6 @@ namespace IStudyIdentityServer.Controllers
                 expires: DateTime.Now.AddSeconds(authParams.TokenLifetime),
                 signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+        }*/
     }
 }

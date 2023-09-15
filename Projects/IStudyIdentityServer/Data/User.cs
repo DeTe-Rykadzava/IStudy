@@ -13,13 +13,11 @@ public partial class User
 
     public string? Lastname { get; set; }
 
-    public int Classid { get; set; }
-
-    public string Login { get; set; } = null!;
-
-    public string Password { get; set; } = null!;
-
     public int Verifystage { get; set; }
 
-    public int Usertypeid { get; set; }
+    public int UserTypeId { get; set; }
+
+    public string UserPhoto { get; set; } = null!;
+
+    public int ClassId { get; set; }
 }
