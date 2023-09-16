@@ -1,4 +1,3 @@
-using IStudyIdentityServer.Common;
 using IStudyIdentityServer.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +15,6 @@ builder.Services.AddDbContext<IStudyDataBaseContext>
 );
 
 var authOptionsConfiguration = builder.Configuration.GetSection("Auth");
-builder.Services.Configure<AuthOptions>(authOptionsConfiguration);
 
 builder.Services.AddCors(opt => 
     opt.AddDefaultPolicy(build =>
