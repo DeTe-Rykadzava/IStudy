@@ -37,7 +37,7 @@ public partial class IStudyDataBaseContext : DbContext
             entity.Property(e => e.Secondname).HasColumnName("secondname");
             entity.Property(e => e.UserPhoto).HasColumnName("user_photo");
             entity.Property(e => e.UserTypeId).HasColumnName("user_type_id");
-            entity.Property(e => e.Verifystage).HasColumnName("verifystage");
+            entity.Property(e => e.VerifyStage).HasColumnName("verify_stage");
         });
 
         OnModelCreatingPartial(modelBuilder);
