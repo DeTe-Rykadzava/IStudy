@@ -5,7 +5,7 @@ namespace IStudyAPI.Data;
 
 public partial class User
 {
-    public Guid Id { get; set; }
+    public string Id { get; set; } = null!;
 
     public string Firstname { get; set; } = null!;
 
@@ -21,13 +21,9 @@ public partial class User
 
     public int ClassId { get; set; }
 
-    public string Userid { get; set; } = null!;
-
-    public virtual ICollection<Certificate> CertificateAddedUsers { get; set; } = new List<Certificate>();
-
     public virtual ICollection<CertificateOwner> CertificateOwners { get; set; } = new List<CertificateOwner>();
 
-    public virtual ICollection<Certificate> CertificateTeacherUsers { get; set; } = new List<Certificate>();
+    public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
 
     public virtual Class Class { get; set; } = null!;
 
