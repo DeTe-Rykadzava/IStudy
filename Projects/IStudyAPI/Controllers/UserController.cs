@@ -24,6 +24,7 @@ namespace IStudyAPI.Controllers
         // GET: api/User
         [Authorize]
         [HttpGet]
+        [Route("users")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         { 
             return await _context.Users
@@ -37,6 +38,7 @@ namespace IStudyAPI.Controllers
         // GET: api/User/5
         [Authorize]
         [HttpGet]
+        [Route("user")]
         public async Task<ActionResult<UserDTO>> GetUserInfo()
         {
             var user = await _context.Users
@@ -95,20 +97,31 @@ namespace IStudyAPI.Controllers
         }
         
         [Authorize]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserPhoto()
+        [HttpPut]
+        public async Task<IActionResult> PutUserPhoto(UserPhotoModel model)
         {
-            var userId = User.FindFirst("user_id").Value;
-            
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
-
-            if (user == null)
-                return BadRequest();
-            
-           _context.Entry(user).State = EntityState.Modified;
-
             try
             {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == model.UserId);
+    
+                if (user == null)
+                    return BadRequest();
+    
+                var path = $"{Directory.GetCurrentDirectory()}..\\Users_Photos";
+    
+                Directory.CreateDirectory(path);
+    
+                using (var sw = new FileStream(Path.Combine(path,$"{model.UserId}.jpg"), FileMode.Create))
+                {
+                    var ms = new MemoryStream(model.FileData);
+                    await ms.CopyToAsync(sw);
+                    await ms.DisposeAsync();
+                }
+    
+                user.UserPhoto = Path.Combine(path, $"{model.UserId}.jpg");
+                
+                _context.Entry(user).State = EntityState.Modified;
+                
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
