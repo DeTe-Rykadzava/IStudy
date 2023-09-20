@@ -29,24 +29,24 @@ builder.Services.AddCors(opt =>
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    using (var context = scope.ServiceProvider.GetService<IStudyDataBaseContext>())
-    {
-        context.Database.EnsureCreated();
-    }
-
-    using (var tokencontext = scope.ServiceProvider.GetService<UserTokenStorageContext>())
-    {
-        tokencontext.Database.EnsureCreated();
-    }
-}
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
+    using (var scope = app.Services.CreateScope())
+    {
+        using (var context = scope.ServiceProvider.GetService<IStudyDataBaseContext>())
+        {
+            context.Database.EnsureCreated();
+        }
+
+        using (var tokencontext = scope.ServiceProvider.GetService<UserTokenStorageContext>())
+        {
+            tokencontext.Database.EnsureCreated();
+        }
+    }
 }
 
 app.UseCors();
