@@ -20,7 +20,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidIssuer = "https://securetoken.google.com/istudyauthentication",
             ValidateAudience = true,
             ValidAudience = "istudyauthentication",
-            ValidateLifetime = true,
+            ValidateLifetime = true
         };
     });
 

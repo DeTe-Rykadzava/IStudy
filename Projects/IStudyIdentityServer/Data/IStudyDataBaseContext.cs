@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace IStudyIdentityServer.Data;
 
@@ -18,7 +16,9 @@ public partial class IStudyDataBaseContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected void OnConfiguring(DbContextOptionsBuilder optionsBuilder, IConfiguration appConfig)
-        => optionsBuilder.UseNpgsql(appConfig.GetConnectionString("DefaultConnect"));
+    {
+        optionsBuilder.UseNpgsql(appConfig.GetConnectionString("DefaultConnect"));
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

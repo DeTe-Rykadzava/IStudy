@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace IStudyIdentityServer.Data;
 
-namespace IStudyIdentityServer.Data;
-
-public partial class User
+public class User
 {
     public string Id { get; set; }
 

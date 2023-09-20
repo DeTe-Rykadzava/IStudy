@@ -11,12 +11,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<IStudyDataBaseContext>
 (opt => opt.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultConnect"))
+    builder.Configuration.GetConnectionString("DefaultConnect"))
 );
+builder.Services.AddDbContext<UserTokenStorageContext>(opt =>
+    opt.UseSqlite(builder.Configuration.GetConnectionString("StorageTokens")));
 
 var authOptionsConfiguration = builder.Configuration.GetSection("Auth");
 
-builder.Services.AddCors(opt => 
+builder.Services.AddCors(opt =>
     opt.AddDefaultPolicy(build =>
     {
         build.AllowAnyOrigin()
@@ -27,10 +29,17 @@ builder.Services.AddCors(opt =>
 
 var app = builder.Build();
 
-using var scope = app.Services.CreateScope();
-using (var context = scope.ServiceProvider.GetService<IStudyDataBaseContext>())
+using (var scope = app.Services.CreateScope())
 {
-    context.Database.EnsureCreated();
+    using (var context = scope.ServiceProvider.GetService<IStudyDataBaseContext>())
+    {
+        context.Database.EnsureCreated();
+    }
+
+    using (var tokencontext = scope.ServiceProvider.GetService<UserTokenStorageContext>())
+    {
+        tokencontext.Database.EnsureCreated();
+    }
 }
 
 // Configure the HTTP request pipeline.
