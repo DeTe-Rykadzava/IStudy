@@ -34,7 +34,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    
+
     using (var scope = app.Services.CreateScope())
     {
         using (var context = scope.ServiceProvider.GetService<IStudyDataBaseContext>())

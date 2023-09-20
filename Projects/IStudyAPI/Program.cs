@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(opt => opt.AllowEmptyInputInBodyModelBinding = true);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -39,7 +39,7 @@ if (app.Environment.IsDevelopment())
 
     using var scope = app.Services.CreateScope();
     using var context = scope.ServiceProvider.GetService<IstudyDataBaseContext>();
-        context.Database.EnsureCreated();
+    context.Database.EnsureCreated();
 }
 
 app.UseHttpsRedirection();

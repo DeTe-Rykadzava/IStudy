@@ -54,8 +54,6 @@ public class AuthController : ControllerBase
         }
     }
 
-    public record RefreshTokenModel(string AccessToken);
-    
     [Route("RefreshToken")]
     [HttpPost]
     public async Task<IActionResult> RefreshToken(RefreshTokenModel model)
@@ -82,17 +80,16 @@ public class AuthController : ControllerBase
 
             if (response.IsSuccessStatusCode)
             {
-                var responseData = JsonObject.Parse(await response.Content.ReadAsStreamAsync());
+                var responseData = JsonNode.Parse(await response.Content.ReadAsStreamAsync());
                 var new_access_token = responseData["access_token"].Deserialize<string>();
                 var new_refresh_token = responseData["refresh_token"].Deserialize<string>();
                 userToken.AccessToken = new_access_token;
                 userToken.RefreshToken = new_refresh_token;
                 await _tokenContext.SaveChangesAsync();
-                return Ok(new { access_token = new_access_token});
+                return Ok(new { access_token = new_access_token });
             }
 
             return Unauthorized();
-
         }
         catch (FirebaseAuthException ex)
         {
@@ -145,4 +142,6 @@ public class AuthController : ControllerBase
             return Problem(ex.Message);
         }
     }
+
+    public record RefreshTokenModel(string AccessToken);
 }
