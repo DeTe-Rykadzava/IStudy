@@ -1,6 +1,9 @@
-﻿namespace IStudyAPI.Data;
+﻿using System;
+using System.Collections.Generic;
 
-public class User
+namespace IStudyAPI.Data;
+
+public partial class User
 {
     public string Id { get; set; } = null!;
 
@@ -14,15 +17,15 @@ public class User
 
     public int UserTypeId { get; set; }
 
-    public string UserPhoto { get; set; } = null!;
+    public string? UserPhoto { get; set; }
 
-    public int ClassId { get; set; }
+    public int? ClassId { get; set; }
 
     public virtual ICollection<CertificateOwner> CertificateOwners { get; set; } = new List<CertificateOwner>();
 
     public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
 
-    public virtual Class Class { get; set; } = null!;
+    public virtual Class? Class { get; set; }
 
     public virtual UserType UserType { get; set; } = null!;
 }

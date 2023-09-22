@@ -12,5 +12,5 @@ public class UserDTO
 
     public string UserType { get; set; } = null!;
 
-    public string Class { get; set; } = null!;
+    public string? Class { get; set; }
 }

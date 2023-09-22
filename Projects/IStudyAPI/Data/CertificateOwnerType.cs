@@ -1,6 +1,9 @@
-﻿namespace IStudyAPI.Data;
+﻿using System;
+using System.Collections.Generic;
 
-public class CertificateOwnerType
+namespace IStudyAPI.Data;
+
+public partial class CertificateOwnerType
 {
     public int Id { get; set; }
 

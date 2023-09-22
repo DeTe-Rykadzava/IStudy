@@ -24,7 +24,7 @@ namespace IStudyAPI.Controllers
         // GET: api/User
         [Authorize]
         [HttpGet]
-        [Route("users")]
+        [Route("Users")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         { 
             return await _context.Users
@@ -38,13 +38,17 @@ namespace IStudyAPI.Controllers
         // GET: api/User/5
         [Authorize]
         [HttpGet]
-        [Route("user")]
+        [Route("UserInfo")]
         public async Task<ActionResult<UserDTO>> GetUserInfo()
         {
+            // Console.WriteLine(User.Claims.FirstOrDefault(x => x.Type == "user_id").Value);
+
+            var userId = User.Claims.FirstOrDefault(x => x.Type == "user_id").Value;
+            
             var user = await _context.Users
                 .Include(i => i.Class)
                 .Include(i => i.UserType)
-                .FirstOrDefaultAsync(x => x.Id == User.FindFirst("user_id").Value);
+                .FirstOrDefaultAsync(x => x.Id == userId);
 
             if (user == null)
             {
@@ -54,18 +58,41 @@ namespace IStudyAPI.Controllers
             return UserToDto(user);
         }
 
+        [Authorize]
+        [HttpGet]
+        [Route("UserPhoto/{userId}")]
+        public async Task<IActionResult> GetUserPhoto(string userId)
+        {
+            try
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+                
+                if (user == null)
+                    return NotFound();
+
+                if (string.IsNullOrWhiteSpace(user.UserPhoto))
+                    return NotFound();
+
+                var photoBytes = System.IO.File.ReadAllBytes(user.UserPhoto);
+                
+                return File(photoBytes, "image/jpg");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Problem(e.Message);
+            }
+        }
+
         // PUT: api/User/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(string id, UserDTO userDto)
+        public async Task<IActionResult> PutUser(UserDTO userDto)
         {
-            if (id != userDto.Id)
-            {
-                return BadRequest();
-            }
-
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userDto.Id);
+            var userId = User.Claims.FirstOrDefault(x => x.Type == "user_id").Value;
+            
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
             if (user == null)
                 return BadRequest();
@@ -83,7 +110,7 @@ namespace IStudyAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!UserExists(userId))
                 {
                     return NotFound();
                 }
@@ -102,23 +129,30 @@ namespace IStudyAPI.Controllers
         {
             try
             {
-                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == model.UserId);
+                var userId = User.Claims.FirstOrDefault(x => x.Type == "user_id").Value;
+                
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
     
                 if (user == null)
                     return BadRequest();
+
+                if (string.IsNullOrWhiteSpace(model.FileB64Data))
+                    return BadRequest();
     
-                var path = $"{Directory.GetCurrentDirectory()}..\\Users_Photos";
+                var path = $"{Directory.GetCurrentDirectory()}\\Users_Photos";
     
                 Directory.CreateDirectory(path);
     
-                using (var sw = new FileStream(Path.Combine(path,$"{model.UserId}.jpg"), FileMode.Create))
+                using (var sw = new FileStream(Path.Combine(path,$"{userId}.jpg"), FileMode.Create))
                 {
-                    var ms = new MemoryStream(model.FileData);
+                    var photoBytes = Convert.FromBase64String(model.FileB64Data);
+                    
+                    var ms = new MemoryStream(photoBytes);
                     await ms.CopyToAsync(sw);
                     await ms.DisposeAsync();
                 }
     
-                user.UserPhoto = Path.Combine(path, $"{model.UserId}.jpg");
+                user.UserPhoto = Path.Combine(path, $"{userId}.jpg");
                 
                 _context.Entry(user).State = EntityState.Modified;
                 
@@ -145,7 +179,7 @@ namespace IStudyAPI.Controllers
                 Firstname = user.Firstname,
                 Secondname = user.Secondname,
                 Lastname = user.Lastname,
-                Class = user.Class.Name,
+                Class = user.Class?.Name,
                 UserType = user.UserType.Type
             };
         }

@@ -1,6 +1,9 @@
-﻿namespace IStudyAPI.Data;
+﻿using System;
+using System.Collections.Generic;
 
-public class UserType
+namespace IStudyAPI.Data;
+
+public partial class UserType
 {
     public int Id { get; set; }
 

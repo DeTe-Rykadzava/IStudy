@@ -8,7 +8,8 @@ public static class BaseController
 {
     public static async Task<bool> CanUserModifiedEntry(IstudyDataBaseContext context, HttpContext httpContext)
     {
-        var user = await context.Users.FirstOrDefaultAsync(x => x.Id == httpContext.User.FindFirst("user_id").Value);
+        var user = await context.Users.FirstOrDefaultAsync(x => 
+            x.Id == httpContext.User.Claims.FirstOrDefault(x => x.Type == "user_id").Value);
 
         if (user == null)
             return false;

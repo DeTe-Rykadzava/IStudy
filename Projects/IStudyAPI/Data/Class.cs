@@ -1,6 +1,9 @@
-﻿namespace IStudyAPI.Data;
+﻿using System;
+using System.Collections.Generic;
 
-public class Class
+namespace IStudyAPI.Data;
+
+public partial class Class
 {
     public int Id { get; set; }
 

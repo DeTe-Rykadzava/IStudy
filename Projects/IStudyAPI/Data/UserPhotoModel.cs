@@ -1,7 +1,9 @@
+using Microsoft.Build.Framework;
+
 namespace IStudyAPI.Data;
 
 public class UserPhotoModel
 {
-    public string UserId { get; set; }
-    public byte[] FileData { get; set; }
+    [Required]
+    public string FileB64Data { get; set; }
 }
