@@ -15,7 +15,11 @@ public partial class Certificate
 
     public DateTime Createdate { get; set; }
 
+    public int CertificateLevelId { get; set; }
+
     public virtual User AddedUser { get; set; } = null!;
+
+    public virtual CertificateLevel CertificateLevel { get; set; } = null!;
 
     public virtual ICollection<CertificateOwner> CertificateOwners { get; set; } = new List<CertificateOwner>();
 }
