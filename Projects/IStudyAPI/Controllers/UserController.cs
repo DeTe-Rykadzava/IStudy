@@ -12,7 +12,7 @@ namespace IStudyAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : BaseController
     {
         private readonly IstudyDataBaseContext _context;
 
@@ -20,13 +20,18 @@ namespace IStudyAPI.Controllers
         {
             _context = context;
         }
-
+        
         // GET: api/User
         [Authorize]
         [HttpGet]
         [Route("Users")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
-        { 
+        {
+            if ((await IsUser(_context, HttpContext)) is ActionResult result)
+            {
+                return result;
+            }
+
             return await _context.Users
                 .Include(i => i.UserType)
                 .Include(i => i.Class)
@@ -41,8 +46,6 @@ namespace IStudyAPI.Controllers
         [Route("UserInfo")]
         public async Task<ActionResult<UserDTO>> GetUserInfo()
         {
-            // Console.WriteLine(User.Claims.FirstOrDefault(x => x.Type == "user_id").Value);
-
             var userId = User.Claims.FirstOrDefault(x => x.Type == "user_id").Value;
             
             var user = await _context.Users
@@ -84,19 +87,57 @@ namespace IStudyAPI.Controllers
             }
         }
 
-        // PUT: api/User/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(UserDTO userDto)
+        public enum VerifyStage
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == "user_id").Value;
-            
+            NonVerifyed,
+            Verified
+        }
+        
+        [Authorize]
+        [HttpPut]
+        [Route("VerifyStage")]
+        public async Task<IActionResult> PutUserVerifyStage(string userId, VerifyStage stage)
+        {
+            if (!(await IsAdmin(_context, HttpContext)))
+                return Forbid();
+
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
             if (user == null)
                 return BadRequest();
+
+            user.Verifystage = (int)stage;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+
+            return NoContent();
+        }
+
+
+        // PUT: api/User/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
+        [HttpPut]
+        [Route("PutUserInfo")]
+        public async Task<IActionResult> PutUser(UserDTO userDto)
+        {
+            var userId = User.Claims.FirstOrDefault(x => x.Type == "user_id").Value;
             
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userDto.Id);
+
+            if (user == null)
+                return BadRequest();
+            
+            if (userId != userDto.Id && user.UserTypeId != 3)
+                return BadRequest();
+
             user.Firstname = userDto.Firstname;
             user.Secondname = userDto.Secondname;
             user.Lastname = userDto.Lastname;
@@ -125,6 +166,7 @@ namespace IStudyAPI.Controllers
         
         [Authorize]
         [HttpPut]
+        [Route("SetPhoto")]
         public async Task<IActionResult> PutUserPhoto(UserPhotoModel model)
         {
             try

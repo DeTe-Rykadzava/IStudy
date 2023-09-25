@@ -12,7 +12,7 @@ namespace IStudyAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClassController : ControllerBase
+    public class ClassController : BaseController
     {
         private readonly IstudyDataBaseContext _context;
 
@@ -34,7 +34,7 @@ namespace IStudyAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutClass(int id, ClassDTO classDto)
         {
-            if (!(await BaseController.CanUserModifiedEntry(_context, HttpContext)))
+            if (!(await IsAdmin(_context, HttpContext)))
             {
                 return Forbid();
             }
@@ -80,7 +80,7 @@ namespace IStudyAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<ClassDTO>> PostClass(Class @class)
         {
-            if (!(await BaseController.CanUserModifiedEntry(_context, HttpContext)))
+            if (!(await IsAdmin(_context, HttpContext)))
             {
                 return Forbid();
             }
@@ -96,7 +96,7 @@ namespace IStudyAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteClass(int id)
         {
-            if (!(await BaseController.CanUserModifiedEntry(_context, HttpContext)))
+            if (!(await IsAdmin(_context, HttpContext)))
             {
                 return Forbid();
             }

@@ -7,7 +7,7 @@ namespace IStudyAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UserTypeController : ControllerBase
+public class UserTypeController : BaseController
 {
     private readonly IstudyDataBaseContext _context;
 
@@ -31,7 +31,7 @@ public class UserTypeController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutUserType(int id, UserTypeDTO userTypeDto)
     {
-        if (!(await BaseController.CanUserModifiedEntry(_context, HttpContext)))
+        if (!(await IsAdmin(_context, HttpContext)))
         {
             return Forbid();
         }
@@ -69,7 +69,7 @@ public class UserTypeController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<UserTypeDTO>> PostUserType(UserType userType)
     {
-        if (!(await BaseController.CanUserModifiedEntry(_context, HttpContext)))
+        if (!(await IsAdmin(_context, HttpContext)))
         {
             return Forbid();
         }
@@ -85,7 +85,7 @@ public class UserTypeController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUserType(int id)
     {
-        if (!(await BaseController.CanUserModifiedEntry(_context, HttpContext)))
+        if (!(await IsAdmin(_context, HttpContext)))
         {
             return Forbid();
         }

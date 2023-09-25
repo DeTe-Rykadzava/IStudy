@@ -12,7 +12,7 @@ namespace IStudyAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OwnerTypeController : ControllerBase
+    public class OwnerTypeController : BaseController
     {
         private readonly IstudyDataBaseContext _context;
 
@@ -23,27 +23,24 @@ namespace IStudyAPI.Controllers
 
         // GET: api/OwnerType
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CertificateOwnerType>>> GetCertificateOwnerTypes()
+        public async Task<ActionResult<IEnumerable<CertificateOwnerTypeDTO>>> GetCertificateOwnerTypes()
         {
-            return await _context.CertificateOwnerTypes.ToListAsync();
+            return await _context.CertificateOwnerTypes
+                .Select(s => CertificateOwnerTypeToDto(s))
+                .ToListAsync();
         }
 
         // PUT: api/OwnerType/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCertificateOwnerType(int id, CertificateOwnerTypeDTO certificateOwnerTypeDto)
+        [HttpPut]
+        public async Task<IActionResult> PutCertificateOwnerType(CertificateOwnerTypeDTO certificateOwnerTypeDto)
         {
-            if (!(await BaseController.CanUserModifiedEntry(_context, HttpContext)))
+            if (!(await IsAdmin(_context, HttpContext)))
             {
                 return Forbid();
             }
             
-            if (id != certificateOwnerTypeDto.Id)
-            {
-                return BadRequest();
-            }
-
             var certificateOwnerType =
                 await _context.CertificateOwnerTypes.FirstOrDefaultAsync(x => x.Id == certificateOwnerTypeDto.Id);
 
@@ -57,15 +54,6 @@ namespace IStudyAPI.Controllers
             try
             {
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CertificateOwnerTypeExists(id))
-                {
-                    return NotFound();
-                }
-
-                return Problem();
             }
             catch (Exception ex)
             {
@@ -81,7 +69,7 @@ namespace IStudyAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<CertificateOwnerTypeDTO>> PostCertificateOwnerType(CertificateOwnerType certificateOwnerType)
         {
-            if (!(await BaseController.CanUserModifiedEntry(_context, HttpContext)))
+            if (!(await IsAdmin(_context, HttpContext)))
             {
                 return Forbid();
             }
@@ -97,7 +85,7 @@ namespace IStudyAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCertificateOwnerType(int id)
         {
-            if (!(await BaseController.CanUserModifiedEntry(_context, HttpContext)))
+            if (!(await IsAdmin(_context, HttpContext)))
             {
                 return Forbid();
             }
