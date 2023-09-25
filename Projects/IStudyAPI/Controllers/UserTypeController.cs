@@ -67,17 +67,22 @@ public class UserTypeController : BaseController
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [Authorize]
     [HttpPost]
-    public async Task<ActionResult<UserTypeDTO>> PostUserType(UserType userType)
+    public async Task<ActionResult<UserTypeDTO>> PostUserType(UserTypeDTO userType)
     {
         if (!(await IsAdmin(_context, HttpContext)))
         {
             return Forbid();
         }
+
+        var newUserType = new UserType
+        {
+            Type = userType.Type
+        };
         
-        _context.UserTypes.Add(userType);
+        _context.UserTypes.Add(newUserType);
         await _context.SaveChangesAsync();
 
-        return UserTypeToDto(userType);
+        return UserTypeToDto(newUserType);
     }
 
     [Authorize]

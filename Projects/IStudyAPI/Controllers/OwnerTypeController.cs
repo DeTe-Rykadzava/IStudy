@@ -67,17 +67,22 @@ namespace IStudyAPI.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult<CertificateOwnerTypeDTO>> PostCertificateOwnerType(CertificateOwnerType certificateOwnerType)
+        public async Task<ActionResult<CertificateOwnerTypeDTO>> PostCertificateOwnerType(CertificateOwnerTypeDTO certificateOwnerType)
         {
             if (!(await IsAdmin(_context, HttpContext)))
             {
                 return Forbid();
             }
+
+            var newOwnerType = new CertificateOwnerType
+            {
+                OwnerType = certificateOwnerType.OwnerType
+            };
             
-            _context.CertificateOwnerTypes.Add(certificateOwnerType);
+            _context.CertificateOwnerTypes.Add(newOwnerType);
             await _context.SaveChangesAsync();
 
-            return CertificateOwnerTypeToDto(certificateOwnerType);
+            return CertificateOwnerTypeToDto(newOwnerType);
         }
 
         // DELETE: api/OwnerType/5

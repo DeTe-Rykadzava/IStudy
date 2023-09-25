@@ -78,17 +78,22 @@ namespace IStudyAPI.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult<ClassDTO>> PostClass(Class @class)
+        public async Task<ActionResult<ClassDTO>> PostClass(ClassDTO @class)
         {
             if (!(await IsAdmin(_context, HttpContext)))
             {
                 return Forbid();
             }
+
+            var newClass = new Class
+            {
+                Name = @class.Name
+            };
             
-            _context.Classes.Add(@class);
+            _context.Classes.Add(newClass);
             await _context.SaveChangesAsync();
 
-            return ClassToDto(@class);
+            return ClassToDto(newClass);
         }
 
         // DELETE: api/Class/5
