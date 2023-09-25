@@ -17,6 +17,8 @@ public partial class IstudyDataBaseContext : DbContext
 
     public virtual DbSet<Certificate> Certificates { get; set; }
 
+    public virtual DbSet<CertificateLevel> CertificateLevels { get; set; }
+
     public virtual DbSet<CertificateOwner> CertificateOwners { get; set; }
 
     public virtual DbSet<CertificateOwnerType> CertificateOwnerTypes { get; set; }
@@ -27,9 +29,8 @@ public partial class IstudyDataBaseContext : DbContext
 
     public virtual DbSet<UserType> UserTypes { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=IStudyDataBase;Username=postgres;Password=root;");
+    protected void OnConfiguring(DbContextOptionsBuilder optionsBuilder, IConfiguration configuration)
+        => optionsBuilder.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -41,6 +42,7 @@ public partial class IstudyDataBaseContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.AddedUserId).HasColumnName("added_user_id");
+            entity.Property(e => e.CertificateLevelId).HasColumnName("certificate_level_id");
             entity.Property(e => e.Createdate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("createdate");
@@ -51,6 +53,23 @@ public partial class IstudyDataBaseContext : DbContext
                 .HasForeignKey(d => d.AddedUserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("certificate_added_user_fk");
+
+            entity.HasOne(d => d.CertificateLevel).WithMany(p => p.Certificates)
+                .HasForeignKey(d => d.CertificateLevelId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("certificate_level_id_fk");
+        });
+
+        modelBuilder.Entity<CertificateLevel>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("levelcertificate_pk");
+
+            entity.ToTable("certificate_level");
+
+            entity.Property(e => e.Id)
+                .HasDefaultValueSql("nextval('levelcertificate_id_seq'::regclass)")
+                .HasColumnName("id");
+            entity.Property(e => e.Level).HasColumnName("level");
         });
 
         modelBuilder.Entity<CertificateOwner>(entity =>
