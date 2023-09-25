@@ -4,17 +4,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IStudyAPI.Controllers;
 
-public static class BaseController
+public class BaseController : ControllerBase
 {
-    public static async Task<bool> CanUserModifiedEntry(IstudyDataBaseContext context, HttpContext httpContext)
+    protected async Task<bool> IsAdmin(IstudyDataBaseContext context, HttpContext httpContext)
     {
+        var currentUserId = User.Claims.FirstOrDefault(x => x.Type == "user_id").Value;
+        
         var user = await context.Users.FirstOrDefaultAsync(x => 
-            x.Id == httpContext.User.Claims.FirstOrDefault(x => x.Type == "user_id").Value);
+            x.Id == currentUserId);
 
         if (user == null)
             return false;
         if (user.UserTypeId != 3)
             return false;
         return true;
+    }
+
+    protected async Task<IActionResult?> IsUser(IstudyDataBaseContext context, HttpContext httpContext)
+    {
+        var currentUserId = User.Claims.FirstOrDefault(x => x.Type == "user_id").Value;
+        
+        var user = await context.Users.FirstOrDefaultAsync(x => 
+            x.Id == currentUserId);
+
+        if (user == null)
+            return Unauthorized();
+        if (user.UserTypeId == 3)
+            return Forbid();
+        return null;
     }
 }
