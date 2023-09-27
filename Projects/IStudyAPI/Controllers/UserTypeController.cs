@@ -31,10 +31,7 @@ public class UserTypeController : BaseController
     [HttpPut("{id}")]
     public async Task<IActionResult> PutUserType(int id, UserTypeDTO userTypeDto)
     {
-        if (!(await IsAdmin(_context)))
-        {
-            return Forbid();
-        }
+        if (!await IsAdmin(_context)) return Forbid();
 
         if (id != userTypeDto.Id) return BadRequest();
 
@@ -69,16 +66,13 @@ public class UserTypeController : BaseController
     [HttpPost]
     public async Task<ActionResult<UserTypeDTO>> PostUserType(UserTypeDTO userType)
     {
-        if (!(await IsAdmin(_context)))
-        {
-            return Forbid();
-        }
+        if (!await IsAdmin(_context)) return Forbid();
 
         var newUserType = new UserType
         {
             Type = userType.Type
         };
-        
+
         _context.UserTypes.Add(newUserType);
         await _context.SaveChangesAsync();
 
@@ -90,10 +84,7 @@ public class UserTypeController : BaseController
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUserType(int id)
     {
-        if (!(await IsAdmin(_context)))
-        {
-            return Forbid();
-        }
+        if (!await IsAdmin(_context)) return Forbid();
 
         var userType = await _context.UserTypes.FindAsync(id);
         if (userType == null) return NotFound();

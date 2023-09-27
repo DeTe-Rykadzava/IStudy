@@ -9,8 +9,8 @@ public class BaseController : ControllerBase
     protected async Task<bool> IsAdmin(IstudyDataBaseContext context)
     {
         var currentUserId = User.Claims.FirstOrDefault(x => x.Type == "user_id").Value;
-        
-        var user = await context.Users.FirstOrDefaultAsync(x => 
+
+        var user = await context.Users.FirstOrDefaultAsync(x =>
             x.Id == currentUserId);
 
         if (user == null)
@@ -23,8 +23,8 @@ public class BaseController : ControllerBase
     protected async Task<IActionResult?> IsUser(IstudyDataBaseContext context)
     {
         var currentUserId = User.Claims.FirstOrDefault(x => x.Type == "user_id").Value;
-        
-        var user = await context.Users.FirstOrDefaultAsync(x => 
+
+        var user = await context.Users.FirstOrDefaultAsync(x =>
             x.Id == currentUserId);
 
         if (user == null)

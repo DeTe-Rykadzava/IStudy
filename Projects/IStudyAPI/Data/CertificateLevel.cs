@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace IStudyAPI.Data;
 
-namespace IStudyAPI.Data;
-
-public partial class CertificateLevel
+public class CertificateLevel
 {
     public int Id { get; set; }
 

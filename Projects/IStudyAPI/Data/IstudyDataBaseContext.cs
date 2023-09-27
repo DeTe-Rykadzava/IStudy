@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace IStudyAPI.Data;
 
@@ -30,7 +28,9 @@ public partial class IstudyDataBaseContext : DbContext
     public virtual DbSet<UserType> UserTypes { get; set; }
 
     protected void OnConfiguring(DbContextOptionsBuilder optionsBuilder, IConfiguration configuration)
-        => optionsBuilder.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+    {
+        optionsBuilder.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

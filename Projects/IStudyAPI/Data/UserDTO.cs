@@ -13,7 +13,7 @@ public class UserDTO
     public string UserType { get; set; } = null!;
 
     public string? Class { get; set; }
-    
+
     public static UserDTO UserToDto(User user)
     {
         return new UserDTO

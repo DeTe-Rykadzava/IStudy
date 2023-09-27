@@ -10,4 +10,3 @@ public class CertificateModel
 
     public List<CertificateOwnerModel> Owners { get; } = null!;
 }
-

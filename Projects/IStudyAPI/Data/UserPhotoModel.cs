@@ -4,6 +4,5 @@ namespace IStudyAPI.Data;
 
 public class UserPhotoModel
 {
-    [Required]
-    public string FileB64Data { get; set; }
+    [Required] public string FileB64Data { get; set; }
 }
