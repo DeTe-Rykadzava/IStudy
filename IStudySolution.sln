@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IStudyIdentityServer", "Pro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IStudyAPI", "Projects\IStudyAPI\IStudyAPI.csproj", "{C6F683AE-0B9C-4387-9392-FF5C238E44B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IStudyWeb", "Projects\IStudyWeb\IStudyWeb.csproj", "{C3F6B8A4-8551-4384-A6EA-D5C3A6EA4FA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,6 +16,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{86EADAFE-9A3A-457D-87C5-230E4C13C985} = {59BDB6A4-7DBE-47FC-B20E-5B7E7E99C026}
 		{C6F683AE-0B9C-4387-9392-FF5C238E44B7} = {59BDB6A4-7DBE-47FC-B20E-5B7E7E99C026}
+		{C3F6B8A4-8551-4384-A6EA-D5C3A6EA4FA2} = {59BDB6A4-7DBE-47FC-B20E-5B7E7E99C026}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{86EADAFE-9A3A-457D-87C5-230E4C13C985}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -24,5 +27,9 @@ Global
 		{C6F683AE-0B9C-4387-9392-FF5C238E44B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6F683AE-0B9C-4387-9392-FF5C238E44B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6F683AE-0B9C-4387-9392-FF5C238E44B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3F6B8A4-8551-4384-A6EA-D5C3A6EA4FA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3F6B8A4-8551-4384-A6EA-D5C3A6EA4FA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3F6B8A4-8551-4384-A6EA-D5C3A6EA4FA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3F6B8A4-8551-4384-A6EA-D5C3A6EA4FA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
