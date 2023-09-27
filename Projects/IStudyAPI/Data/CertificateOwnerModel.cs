@@ -2,7 +2,7 @@
 
 public class CertificateOwnerModel
 {
-    public UserDTO OwnerUser { get; set; }
+    public string OwnerUserId { get; set; }
     
     public int CertificateOwnerTypeId { get; set; }
 }

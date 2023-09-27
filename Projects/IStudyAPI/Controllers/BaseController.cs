@@ -6,7 +6,7 @@ namespace IStudyAPI.Controllers;
 
 public class BaseController : ControllerBase
 {
-    protected async Task<bool> IsAdmin(IstudyDataBaseContext context, HttpContext httpContext)
+    protected async Task<bool> IsAdmin(IstudyDataBaseContext context)
     {
         var currentUserId = User.Claims.FirstOrDefault(x => x.Type == "user_id").Value;
         
@@ -20,7 +20,7 @@ public class BaseController : ControllerBase
         return true;
     }
 
-    protected async Task<IActionResult?> IsUser(IstudyDataBaseContext context, HttpContext httpContext)
+    protected async Task<IActionResult?> IsUser(IstudyDataBaseContext context)
     {
         var currentUserId = User.Claims.FirstOrDefault(x => x.Type == "user_id").Value;
         

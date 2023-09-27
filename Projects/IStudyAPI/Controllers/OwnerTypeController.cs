@@ -26,7 +26,7 @@ namespace IStudyAPI.Controllers
         public async Task<ActionResult<IEnumerable<CertificateOwnerTypeDTO>>> GetCertificateOwnerTypes()
         {
             return await _context.CertificateOwnerTypes
-                .Select(s => CertificateOwnerTypeToDto(s))
+                .Select(s => CertificateOwnerTypeDTO.CertificateOwnerTypeToDto(s))
                 .ToListAsync();
         }
 
@@ -36,7 +36,7 @@ namespace IStudyAPI.Controllers
         [HttpPut]
         public async Task<IActionResult> PutCertificateOwnerType(CertificateOwnerTypeDTO certificateOwnerTypeDto)
         {
-            if (!(await IsAdmin(_context, HttpContext)))
+            if (!(await IsAdmin(_context)))
             {
                 return Forbid();
             }
@@ -69,7 +69,7 @@ namespace IStudyAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<CertificateOwnerTypeDTO>> PostCertificateOwnerType(CertificateOwnerTypeDTO certificateOwnerType)
         {
-            if (!(await IsAdmin(_context, HttpContext)))
+            if (!(await IsAdmin(_context)))
             {
                 return Forbid();
             }
@@ -82,7 +82,7 @@ namespace IStudyAPI.Controllers
             _context.CertificateOwnerTypes.Add(newOwnerType);
             await _context.SaveChangesAsync();
 
-            return CertificateOwnerTypeToDto(newOwnerType);
+            return CertificateOwnerTypeDTO.CertificateOwnerTypeToDto(newOwnerType);
         }
 
         // DELETE: api/OwnerType/5
@@ -90,7 +90,7 @@ namespace IStudyAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCertificateOwnerType(int id)
         {
-            if (!(await IsAdmin(_context, HttpContext)))
+            if (!(await IsAdmin(_context)))
             {
                 return Forbid();
             }
@@ -110,11 +110,6 @@ namespace IStudyAPI.Controllers
         private bool CertificateOwnerTypeExists(int id)
         {
             return (_context.CertificateOwnerTypes?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
-
-        private static CertificateOwnerTypeDTO CertificateOwnerTypeToDto(CertificateOwnerType ownerType)
-        {
-            return new CertificateOwnerTypeDTO { Id = ownerType.Id, OwnerType = ownerType.OwnerType };
         }
     }
 }

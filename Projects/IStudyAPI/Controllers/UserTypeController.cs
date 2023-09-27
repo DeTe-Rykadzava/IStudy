@@ -21,7 +21,7 @@ public class UserTypeController : BaseController
     public async Task<ActionResult<IEnumerable<UserTypeDTO>>> GetUserTypes()
     {
         return await _context.UserTypes.Where(x => x.Id != 3)
-            .Select(s => UserTypeToDto(s))
+            .Select(s => UserTypeDTO.UserTypeToDto(s))
             .ToListAsync();
     }
 
@@ -31,7 +31,7 @@ public class UserTypeController : BaseController
     [HttpPut("{id}")]
     public async Task<IActionResult> PutUserType(int id, UserTypeDTO userTypeDto)
     {
-        if (!(await IsAdmin(_context, HttpContext)))
+        if (!(await IsAdmin(_context)))
         {
             return Forbid();
         }
@@ -69,7 +69,7 @@ public class UserTypeController : BaseController
     [HttpPost]
     public async Task<ActionResult<UserTypeDTO>> PostUserType(UserTypeDTO userType)
     {
-        if (!(await IsAdmin(_context, HttpContext)))
+        if (!(await IsAdmin(_context)))
         {
             return Forbid();
         }
@@ -82,7 +82,7 @@ public class UserTypeController : BaseController
         _context.UserTypes.Add(newUserType);
         await _context.SaveChangesAsync();
 
-        return UserTypeToDto(newUserType);
+        return UserTypeDTO.UserTypeToDto(newUserType);
     }
 
     [Authorize]
@@ -90,7 +90,7 @@ public class UserTypeController : BaseController
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUserType(int id)
     {
-        if (!(await IsAdmin(_context, HttpContext)))
+        if (!(await IsAdmin(_context)))
         {
             return Forbid();
         }
@@ -107,10 +107,5 @@ public class UserTypeController : BaseController
     private bool UserTypeExists(int id)
     {
         return (_context.UserTypes?.Any(e => e.Id == id)).GetValueOrDefault();
-    }
-
-    private static UserTypeDTO UserTypeToDto(UserType userType)
-    {
-        return new UserTypeDTO() { Id = userType.Id, Type = userType.Type };
     }
 }

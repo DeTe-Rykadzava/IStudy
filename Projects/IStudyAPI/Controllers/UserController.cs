@@ -27,16 +27,11 @@ namespace IStudyAPI.Controllers
         [Route("Users")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
-            if ((await IsUser(_context, HttpContext)) is ActionResult result)
-            {
-                return result;
-            }
-
             return await _context.Users
                 .Include(i => i.UserType)
                 .Include(i => i.Class)
                 .Where(x => x.UserType.Id != 3)
-                .Select(s => UserToDto(s))
+                .Select(s => UserDTO.UserToDto(s))
                 .ToListAsync();
         }
 
@@ -58,7 +53,7 @@ namespace IStudyAPI.Controllers
                 return NotFound();
             }
 
-            return UserToDto(user);
+            return UserDTO.UserToDto(user);
         }
 
         [Authorize]
@@ -98,7 +93,7 @@ namespace IStudyAPI.Controllers
         [Route("VerifyStage")]
         public async Task<IActionResult> PutUserVerifyStage(string userId, VerifyStage stage)
         {
-            if (!(await IsAdmin(_context, HttpContext)))
+            if (!(await IsAdmin(_context)))
                 return Forbid();
 
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
@@ -211,19 +206,6 @@ namespace IStudyAPI.Controllers
         private bool UserExists(string id)
         {
             return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
-
-        private static UserDTO UserToDto(User user)
-        {
-            return new UserDTO
-            {
-                Id = user.Id,
-                Firstname = user.Firstname,
-                Secondname = user.Secondname,
-                Lastname = user.Lastname,
-                Class = user.Class?.Name,
-                UserType = user.UserType.Type
-            };
         }
     }
 }

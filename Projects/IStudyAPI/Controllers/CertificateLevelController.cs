@@ -26,7 +26,7 @@ namespace IStudyAPI.Controllers
         public async Task<ActionResult<IEnumerable<CertificateLevelDTO>>> GetCertificateLevels()
         { 
             return await _context.CertificateLevels
-                .Select(s => CertificateLevelToDto(s))
+                .Select(s => CertificateLevelDTO.CertificateLevelToDto(s))
                 .ToListAsync();
         }
 
@@ -36,7 +36,7 @@ namespace IStudyAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCertificateLevel(int id, CertificateLevelDTO certificateLevel)
         {
-            if (!(await IsAdmin(_context, HttpContext)))
+            if (!(await IsAdmin(_context)))
             {
                 return Forbid();
             }
@@ -73,7 +73,7 @@ namespace IStudyAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<CertificateLevelDTO>> PostCertificateLevel(CertificateLevelDTO certificateLevel)
         {
-            if (!(await IsAdmin(_context, HttpContext)))
+            if (!(await IsAdmin(_context)))
             {
                 return Forbid();
             }
@@ -87,7 +87,7 @@ namespace IStudyAPI.Controllers
             _context.CertificateLevels.Add(newCertificateLevel);
             await _context.SaveChangesAsync();
 
-            return CertificateLevelToDto(newCertificateLevel);
+            return CertificateLevelDTO.CertificateLevelToDto(newCertificateLevel);
         }
 
         // DELETE: api/CertificateLevel/5
@@ -95,7 +95,7 @@ namespace IStudyAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCertificateLevel(int id)
         {
-            if (!(await IsAdmin(_context, HttpContext)))
+            if (!(await IsAdmin(_context)))
             {
                 return Forbid();
             }
@@ -115,11 +115,6 @@ namespace IStudyAPI.Controllers
         private bool CertificateLevelExists(int id)
         {
             return (_context.CertificateLevels?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
-
-        private static CertificateLevelDTO CertificateLevelToDto(CertificateLevel certificateLevel)
-        {
-            return new CertificateLevelDTO { Id = certificateLevel.Id, Level = certificateLevel.Level };
         }
     }
 }

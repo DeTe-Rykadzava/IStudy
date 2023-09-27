@@ -13,4 +13,17 @@ public class UserDTO
     public string UserType { get; set; } = null!;
 
     public string? Class { get; set; }
+    
+    public static UserDTO UserToDto(User user)
+    {
+        return new UserDTO
+        {
+            Id = user.Id,
+            Firstname = user.Firstname,
+            Secondname = user.Secondname,
+            Lastname = user.Lastname,
+            Class = user.Class?.Name,
+            UserType = user.UserType.Type
+        };
+    }
 }

@@ -25,7 +25,7 @@ namespace IStudyAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ClassDTO>>> GetClasses()
         {
-            return await _context.Classes.Select(s => ClassToDto(s)).ToListAsync();
+            return await _context.Classes.Select(s => ClassDTO.ClassToDto(s)).ToListAsync();
         }
 
         // PUT: api/Class/5
@@ -34,7 +34,7 @@ namespace IStudyAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutClass(int id, ClassDTO classDto)
         {
-            if (!(await IsAdmin(_context, HttpContext)))
+            if (!(await IsAdmin(_context)))
             {
                 return Forbid();
             }
@@ -80,7 +80,7 @@ namespace IStudyAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<ClassDTO>> PostClass(ClassDTO @class)
         {
-            if (!(await IsAdmin(_context, HttpContext)))
+            if (!(await IsAdmin(_context)))
             {
                 return Forbid();
             }
@@ -93,7 +93,7 @@ namespace IStudyAPI.Controllers
             _context.Classes.Add(newClass);
             await _context.SaveChangesAsync();
 
-            return ClassToDto(newClass);
+            return ClassDTO.ClassToDto(newClass);
         }
 
         // DELETE: api/Class/5
@@ -101,7 +101,7 @@ namespace IStudyAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteClass(int id)
         {
-            if (!(await IsAdmin(_context, HttpContext)))
+            if (!(await IsAdmin(_context)))
             {
                 return Forbid();
             }
@@ -121,11 +121,6 @@ namespace IStudyAPI.Controllers
         private bool ClassExists(int id)
         {
             return (_context.Classes?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
-
-        private static ClassDTO ClassToDto(Class @class)
-        {
-            return new ClassDTO { Id = @class.Id, Name = @class.Name };
         }
     }
 }
