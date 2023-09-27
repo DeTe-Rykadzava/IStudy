@@ -53,6 +53,7 @@ public class CertificateController : BaseController
 
     [Authorize]
     [HttpPut]
+    [Route("PutFile")]
     public async Task<IActionResult> PutCertificateFile(CertificatePutFileModel model)
     {
         var currentUserId = User.Claims.FirstOrDefault(x => x.Type == "user_id").Value;
